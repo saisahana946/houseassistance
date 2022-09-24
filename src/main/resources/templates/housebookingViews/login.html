@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>House Booking Login Form</h2>
+  <form action="#" th:action=@{/login} th:object="${housebooking}" method="post">
+     <div class="form-group">
+     <input type="text" class="form-control" placeholder="enter email"  th:field="*{email}"/>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="enter password"  th:field="*{password}"/>
+    </div>
+    <button type="submit" class="btn btn-default">Login</button>
+  </form>
+</div>
+
+</body>
+</html>
