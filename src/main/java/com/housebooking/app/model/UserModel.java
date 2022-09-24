@@ -67,6 +67,9 @@ public class UserModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String toString(){ 
+		  return firstname+" "+lastname+" "+email+" "+mobileNo+" "+usertype;  
+		 }  
 
 }
 

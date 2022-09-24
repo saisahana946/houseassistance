@@ -28,14 +28,26 @@ public class UserLoginController {
 	public String loginUser(@ModelAttribute("user") UserModel user, Model model)
 	{
 		System.out.println("login**************************************** ");
-		int  output=userloginservice.authenticateUser(user);
+		UserModel  userModel = userloginservice.authenticateUser(user);
 		String username="";
-		System.out.println("output=== "+output);
-		if(output == 1)
+		System.out.println("output=== "+userModel);
+		if(userModel != null)
 		{
-			username=user.getEmail().split("@")[0].toString().toUpperCase();
-			model.addAttribute("username","Welcome to Temporary housing Assistance Dashboard"+" "+username);
-			return "housebookingViews/welcome";
+			if(userModel.getUsertype().equals("houseowner")) {
+				username=userModel.getEmail().split("@")[0].toString().toUpperCase();
+				model.addAttribute("username","Welcome to Temporary housing Assistance Dashboard"+" "+username);
+				return "housebookingViews/welcomehouseowner";
+			} 
+			else if(userModel.getUsertype().equals("student")) {
+				username=userModel.getEmail().split("@")[0].toString().toUpperCase();
+				model.addAttribute("username","Welcome to Temporary housing Assistance Dashboard"+" "+username);
+				return "housebookingViews/welcomestudent";
+			}
+			else {
+				username=userModel.getEmail().split("@")[0].toString().toUpperCase();
+				model.addAttribute("username","Hi,"+" "+username+"Welcome to Temporary housing Assistance ADMIN Dashboard");
+				return "housebookingViews/welcomeadmin";
+			}
 		}
 		else {
 			model.addAttribute("errormsg", "Invalid Login Credentials. Please try again.");

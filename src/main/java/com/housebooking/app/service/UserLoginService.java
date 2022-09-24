@@ -1,5 +1,7 @@
 package com.housebooking.app.service;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.housebooking.app.dao.UserLoginRepo;
@@ -15,19 +17,13 @@ public class UserLoginService {
 		
 	}
 	
-	public int authenticateUser(UserModel usermodel) {
+	public UserModel authenticateUser(UserModel usermodel) {
 		List<UserModel> user = userrepo.findAll();
-		long c= 0;
-		c = user.stream().filter(n -> n.getEmail().equals(usermodel.getEmail()) && n.getPassword().equals(usermodel.getPassword())).count();
+		List<UserModel> veifiedUser = user.stream().filter(n -> n.getEmail().equals(usermodel.getEmail()) && n.getPassword().equals(usermodel.getPassword())).collect(Collectors.toList());
 		
-		System.out.println(c);
+		System.out.println(veifiedUser.get(0));
 		
-		if(c == 1)
-		{
-			return 1;
-		}else
-		{
-			return 0;
-		}
+		return veifiedUser.get(0);
+		
 	}
 }
