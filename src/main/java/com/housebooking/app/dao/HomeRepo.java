@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.housebooking.app.model.UserModel;
 
-public interface UserRegistrationRepo extends JpaRepository<UserModel, Long>{
+public interface HomeRepo extends JpaRepository<UserModel, Long>{
 
 }

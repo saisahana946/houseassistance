@@ -4,15 +4,17 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.housebooking.app.dao.UserLoginRepo;
+import com.housebooking.app.dao.HomeRepo;
 import com.housebooking.app.model.UserModel;
 
 @Service
-public class UserLoginService {
+public class HomeService {
 	
 	@Autowired
-	private UserLoginRepo userrepo;
-	public void saveuser(UserModel user) {
+	private HomeRepo userrepo;
+	
+	public void saveUser(UserModel user) {
+		System.out.println("save===user===service");
 		userrepo.save(user);
 		
 	}
