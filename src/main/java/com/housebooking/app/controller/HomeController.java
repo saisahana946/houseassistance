@@ -108,7 +108,7 @@ public class HomeController {
 		System.out.println("userModel#########"+user.toString());
 		UserModel userModel=homeService.findUser(user.getEmail());
 		EmailModel emailmodel = new EmailModel();
-		emailmodel.setMsgBody("Your Username is"+ userModel.getFirstname()+" "+userModel.getLastname() );
+		emailmodel.setMsgBody("Your Username is"+ userModel.getFirstname()+" "+userModel.getLastname());
 		emailmodel.setRecipient(userModel.getEmail());
 		emailmodel.setSubject("Username Recovery from HouseAssistance");
 		System.out.println("------------------body"+ emailmodel.getMsgBody()+"======="+ emailmodel.getRecipient());
