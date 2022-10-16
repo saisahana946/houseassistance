@@ -17,20 +17,17 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <th:block th:if="${role} =='houseowner'">
       <li class="nav-item">
-          <a class="nav-link active" style="color:green" aria-current="page" href="/houseowner">Home</a>
+          <a class="nav-link" style="color:green" aria-current="page" href="/houseowner">Home</a>
         </li>
       <li class="nav-item">
-          <a class="nav-link" style="color:green" aria-current="page" href="/createHouse">Post House</a>
-      </li>
-      <li class="nav-item">
+          <a class="nav-link active" style="color:green" aria-current="page" href="/createHouse">Post House</a>
+        </li>
+         <li class="nav-item">
           <a class="nav-link" style="color:green" aria-current="page" href="/viewHouses">View Houses</a>
-        </li>
-      <li class="nav-item">
+        </li> 
+        <li class="nav-item">
           <a class="nav-link" style="color:green" aria-current="page" href="/reportStudent">Report Student</a>
-        </li>
-       <li class="nav-item">
-          <a class="nav-link" style="color:green" aria-current="page" href="/review">Post Review</a>
-        </li>  
+        </li> 
       </th:block>
         
       </ul>
@@ -43,9 +40,8 @@
 		  </button>
 		  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 		    <button class="dropdown-item" type="button"><a href="/profile" style="color:black;text-decoration:none">Profile</a></button>
-		    <button class="dropdown-item" type="button">Announcements</button>
-		    <button class="dropdown-item" type="button">Messages</button>
-		    
+		    <button class="dropdown-item" type="button">Notifications</button>
+		    <button class="dropdown-item" type="button"></button>
 		  </div>
 		</div>
 		<button class="btn btn-primary me-2"><a href="/destroy" style="color:white;text-decoration:none">Logout</a></button>
@@ -54,13 +50,34 @@
   </div>
 </nav><br>
 <div class="container">
+  <center><h2 style="color:blue">Report Student</h2></center>
   <br>
-  <div class="card" style="width: 28rem;margin-left:30%">
+   <div class="col d-flex justify-content-center">
+  <div class="card" style="width: 28rem;">
   <div class="card-body">
-       <!-- <img th:src="*{'data:image/jpeg;base64,'+ image}" /> -->
-  </div>
+  <form action="#" th:action=@{/report} th:object="${report}" method="post" enctype="multipart/form-data">
+  
+    
+    <div class="form-group">
+    <label>Student</label>
+     <select class="form-control" th:field="*{userMail}"  id="dropOperator" required>
+    <option value="0">Select Student</option>
+    <option th:each="student : ${students}" th:value="${student.email}" th:text="${student.email}"></option>
+    </select>
+    </div><br>
+    <div class="form-group">
+    <label>Reason</label>
+      <textarea class="form-control" th:field="*{reason}" required></textarea>
+    </div>
+    <br>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+   </div>
 </div>
 </div>
+</div>
+
 
  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -34,8 +34,8 @@ public class HouseModel {
 	@Lob
 	@Column(columnDefinition = "MEDIUMBLOB")
 	private String housePhoto;
-	private int isBooked;
-	private int isHide;
+	private String isBooked;
+	private String isHide;
 	
 	
 	

@@ -88,7 +88,6 @@ public class HomeController {
 				useremail=userModel.getEmail();
 				messages.add(useremail);
 				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
-				System.out.println(messages);
 				return "redirect:/houseowner";
 			} 
 			else if(userModel.getUsertype().equals("student")) {
