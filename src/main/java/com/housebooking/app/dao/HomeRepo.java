@@ -9,4 +9,5 @@ public interface HomeRepo extends JpaRepository<UserModel, Long>{
 	@Query( value = "select * from users where email = :email", nativeQuery = true)
 	UserModel findbyEmail(String email);
 
+	
 }

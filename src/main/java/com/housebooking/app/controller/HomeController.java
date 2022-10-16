@@ -1,11 +1,20 @@
 package com.housebooking.app.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.housebooking.app.model.EmailModel;
@@ -37,41 +46,63 @@ public class HomeController {
 	public String saveHouseBooking(@ModelAttribute("user") UserModel user)
 	{
 		System.out.println("save===user");
+		user.setUsername(user.getFirstname()+user.getLastname());
 		homeService.saveUser(user);
 		return "redirect:/login";
 	}
 	
 	
 	@GetMapping("/login")
-	public String getLoginPage(Model model)
-	{
+	public String getLoginPage(Model model,  HttpSession session)
+	{	
+		@SuppressWarnings("unchecked")
+		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if (messages == null) {
+			messages = new ArrayList<>();
+		}
+		model.addAttribute("sessionMessages", messages);
 		UserModel usermodel = new UserModel();
 		model.addAttribute("user", usermodel);
 		return "home/login";
 	}
 	
 	@PostMapping("/authenticateLogin")
-	public String loginUser(@ModelAttribute("user") UserModel user, Model model)
+	public String loginUser(@ModelAttribute("user") UserModel user,RedirectAttributes attributes,HttpServletRequest request,HttpServletResponse response, Model model)
 	{
 		System.out.println("login**************************************** ");
 		UserModel  userModel = homeService.authenticateUser(user);
 		String username="";
+		String useremail="";
 		System.out.println("output=== "+userModel);
 		if(userModel != null)
 		{
+			@SuppressWarnings("unchecked")
+			List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
+			if (messages == null) {
+				messages = new ArrayList<>();
+				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+			}
 			if(userModel.getUsertype().equals("houseowner")) {
 				username=userModel.getEmail().split("@")[0].toString().toUpperCase();
-				model.addAttribute("username","Welcome to Temporary housing Assistance Dashboard"+" "+username);
+				useremail=userModel.getEmail();
+				messages.add(useremail);
+				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+				System.out.println(messages);
 				return "redirect:/houseowner";
 			} 
 			else if(userModel.getUsertype().equals("student")) {
 				username=userModel.getEmail().split("@")[0].toString().toUpperCase();
-				model.addAttribute("username","Welcome to Temporary housing Assistance Dashboard"+" "+username);
+				useremail=userModel.getEmail();
+				messages.add(useremail);
+				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
 				return "redirect:/user";
 			}
 			else {
 				username=userModel.getEmail().split("@")[0].toString().toUpperCase();
-				model.addAttribute("username","Hi,"+" "+username+"Welcome to Temporary housing Assistance ADMIN Dashboard");
+				useremail=userModel.getEmail();
+				messages.add(useremail);
+				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
 				return "redirect:/admin";
 			}
 		}
@@ -157,13 +188,64 @@ public class HomeController {
 	}
 	
 	@PostMapping("/saveNewPassword")
-	public String saveNewPassword(@ModelAttribute("user") UserModel user)
+	public String saveNewPassword(@ModelAttribute("user") UserModel user, HttpServletRequest request)
 	{
 		System.out.println("save===usernew password");
 		System.out.println("userModel#########"+user.toString());
 		homeService.saveNewPassword(user);
+		 request.getSession().invalidate();
 		return "redirect:/login";
 	}
+	
+	@RequestMapping("/destroy")
+    public String destroySession(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/";
+    }
+	
+	@RequestMapping("/profile")
+    public String viewProfile(HttpSession session, Model model) {
+		@SuppressWarnings("unchecked")
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+		if(messages == null) {
+			model.addAttribute("errormsg", "Session Expired. Please Login Again");
+			return "home/error";
+		}
+		UserModel userdata = homeService.findUser(messages.get(0));
+		model.addAttribute("user", userdata);
+        return "home/profile";
+    }
+	
+	@PostMapping("/updateProfile")
+	public String updateProfile(@ModelAttribute("user") UserModel user)
+	{
+		System.out.println("save===user");
+		homeService.saveUser(user);
+		return "redirect:/profile";
+	}
+	
+	@PostMapping("/deleteProfile/{id}")
+	public String deleteProfile(@PathVariable(name="id") Long id,HttpServletRequest request)
+	{
+		homeService.deleteUser(id);
+		 request.getSession().invalidate();
+		return "redirect:/";
+	}
+	
+	@GetMapping("/resetPassword")
+	public String resetPassword(Model model, HttpSession session) {
+		@SuppressWarnings("unchecked")
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+		UserModel userdata = homeService.findUser(messages.get(0));
+		
+		model.addAttribute("user", userdata);
+		
+		return "home/resetpassword";
+		
+		
+		
+	}
+	
 
 
 }

@@ -18,10 +18,7 @@
       <th:block th:if="${role} =='houseowner'">
       <li class="nav-item">
           <a class="nav-link" style="color:green" aria-current="page" href="/createHouse">Post House</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" style="color:green" aria-current="page" href="/viewHouses">View Houses</a>
-        </li>  
+        </li>
       </th:block>
         
       </ul>
@@ -44,13 +41,49 @@
   </div>
 </nav><br>
 <div class="container">
+  <center><h2 style="color:blue">Create House</h2></center>
   <br>
-  <div class="card" style="width: 28rem;margin-left:30%">
+   <div class="col d-flex justify-content-center">
+  <div class="card" style="width: 28rem;">
   <div class="card-body">
-       <!-- <img th:src="*{'data:image/jpeg;base64,'+ image}" /> -->
-  </div>
+  <form action="#" th:action=@{/saveHouse} th:object="${house}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+     <input type="text" class="form-control" placeholder="Enter your Email" th:field="*{houseOwnerMail}" required/>
+    </div><br>
+    <div class="form-group">
+     <input type="text" class="form-control" placeholder="Enter House Name"  th:field="*{houseName}" required/>
+    </div><br>
+    <div class="form-group">
+     <textarea class="form-control" placeholder="Enter House Address"  th:field="*{houseAddress}" required></textarea> 
+    </div><br>
+    <div class="form-group">
+     <textarea class="form-control" placeholder="Enter House Details"  th:field="*{houseDetails}" required></textarea> 
+    </div><br>
+    <div class="form-group">
+     <input type="number" class="form-control" placeholder="Enter House Contact Number"  th:field="*{houseContact}" required/>
+    </div><br>
+    <div class="form-group">
+      <input type="number" class="form-control" placeholder="Enter House Rent"  th:field="*{houseRent}" required/>
+    </div><br>
+    <div class="form-group">
+      <input type="file" class="form-control" name="image" accept="image/png, image/jpeg" required/>
+    </div><br>
+    <div class="form-group">
+     <select th:field="*{houseType}" class="form-control">
+     <option th:value="null">Select House Type</option>
+    <option th:value="1bhk">1BHK</option>
+    <option th:value="2bhk">2BHK</option>
+    <option th:value="1bhk">3BHK</option>
+    <option th:value="2bhk">4BHK</option>
+    </select>
+    </div><br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+   </div>
 </div>
 </div>
+</div>
+
 
  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -1,6 +1,6 @@
 package com.housebooking.app.service;
 import java.util.List;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +91,13 @@ public class HomeService {
 		return veifiedUser.get(0);
 		
 	}
+
+	public void deleteUser(Long id) {
+		
+		homeRepo.deleteById(id);
+		
+	}
+
+	
 	 
 }

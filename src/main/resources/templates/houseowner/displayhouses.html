@@ -45,10 +45,31 @@
 </nav><br>
 <div class="container">
   <br>
-  <div class="card" style="width: 28rem;margin-left:30%">
+  <div class="row">
+
+<th:block th:each="house : ${houses}">
+ 
+  <div class="card col-xs-12 col-md-4" style="width: 18rem; margin:20px;">
+  <img class="card-img-top" src="*{'data:image/jpeg;base64,' + ${house.housePhoto}}" alt="Card image cap">
   <div class="card-body">
-       <!-- <img th:src="*{'data:image/jpeg;base64,'+ image}" /> -->
+    <h5 class="card-title" th:text="${house.houseName}"></h5>
+    <p class="card-text" th:text="${house.houseDetails}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
   </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">List item 1</li>
+    <li class="list-group-item">List item 2</li>
+    <li class="list-group-item">List item 3</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="btn btn-primary">Update House</a>
+    <br>
+    <a href="#" class="btn btn-danger">Delete House</a>
+  </div>
+</div>
+
+</th:block> 
+
+
 </div>
 </div>
 
